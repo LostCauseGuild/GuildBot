@@ -1,8 +1,4 @@
-# discord-hypixel-bridge
-Bridges a Discord channel chat with Hypixel Guild Chat.  
-Extremely WIP (Seems to work for now?).
+# Lost Cause's GuildBot
 
-## Usage
-**TODO**
-
-Original code by Mew: https://github.com/mew/discord-hypixel-bridge
+A fork of the discord-hypixel-bridge bot by xXTheBigBearXx (Originally by Mew) with features more specific to the Lost Cause guild.
+Links a Discord channel within the Lost Cause discord with their Hypixel Guild Chat.
