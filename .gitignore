@@ -89,5 +89,6 @@ typings/
 
 # Project Files
 .idea/
-config.json
+config.js
 launcher_accounts.json
+launcher_profiles.json
