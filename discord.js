@@ -29,14 +29,14 @@ client.on("messageCreate", (message) => {
                 break;
             }
         } else mc.chat(message.member.displayName + ": " + message.content);
-    } else {
-        if ((message.content.includes("member role") || message.content.includes("lost role")) && !message.member.roles.cache.get(bot.memberRoleID)) message.reply("If you're a member of the guild, send GuildB0t a message on Hypixel with your discord tag to recieve the member role!"); break;
-        if ((message.content.includes("apply") || message.content.includes("join")) && message.content.includes("guild")) message.reply("You can apply to join the guild on the Hypixel Forum thread! You can fine it here: https://hypixel.net/threads/4480870"); break;
-        if ((message.content.includes("smp") || message.content.includes("ip") || message.content.includes("minecraft server")) && message.content.includes("guild")) {
-            if (message.channel.id == ("797842642440028180") || message.channel.id == ("802278805838102539")) {
-                message.reply("Check the Pinned messages to find the Server IP and any version/mod requirements!"); break;
-            } else message.reply("Head to <#797842642440028180>!"); break;
-        };
+    // } else {
+    //     if ((message.content.includes("member role") || message.content.includes("lost role")) && !message.member.roles.cache.get(bot.memberRoleID)) message.reply("If you're a member of the guild, send GuildB0t a message on Hypixel with your discord tag to recieve the member role!"); break;
+    //     if ((message.content.includes("apply") || message.content.includes("join")) && message.content.includes("guild")) message.reply("You can apply to join the guild on the Hypixel Forum thread! You can fine it here: https://hypixel.net/threads/4480870"); break;
+    //     if ((message.content.includes("smp") || message.content.includes("ip") || message.content.includes("minecraft server")) && message.content.includes("guild")) {
+    //         if (message.channel.id == ("797842642440028180") || message.channel.id == ("802278805838102539")) {
+    //             message.reply("Check the Pinned messages to find the Server IP and any version/mod requirements!"); break;
+    //         } else message.reply("Head to <#797842642440028180>!"); break;
+        // };
     };
 });
 

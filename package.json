@@ -8,8 +8,8 @@
   "type": "module",
   "dependencies": {
     "colors": "^1.4.0",
-    "discord.js": "^13.3.1",
-    "mineflayer": "^3.11.2"
+    "discord.js": "^13.6.0",
+    "mineflayer": "^3.15.0"
   },
   "scripts": {
     "start": "node index.js"
