@@ -14,10 +14,6 @@ mc.on("spawn", async () => {
     }, 1000);
     await setTimeout(() => mc.chat("Logged in"), 2000);
     await setTimeout(() => mc.chat("/g online"), 3000);
-    await setTimeout(() => {
-        console.log("Sending to limbo.");
-        mc.chat("/achat \u00a7c<3");
-    }, 4000);
 });
 
 mc.on("messagestr", (msg) => {
@@ -60,39 +56,39 @@ mc.on("messagestr", (msg) => {
     if (bridge.onlinePlayers !== bridge.currentPlayers) {
         client.user.setPresence({activities: [{name: `${bridge.onlinePlayers} guild members`, type: 'WATCHING'}], status: 'dnd' });
         bridge.currentPlayers = bridge.onlinePlayers
-        }
+        };
 
     if (msg.includes("the guild") && !msg.includes(":")) {
         if (msg.startsWith("[")) var i = 1; else i = 0;
 
         switch (msgParts[i + 1]) {
             case "joined":
-                logs.send(msgParts[i] + " joined the guild.");
+                bridge.logs.send(msgParts[i] + " joined the guild.");
                 mc.chat("Welcome " + msgParts[i] + "!");
                 bridge.onlinePlayers++;
                 break;
             case "left":
-                logs.send(msgParts[i] + " left the guild.");
+                bridge.logs.send(msgParts[i] + " left the guild.");
                 mc.chat("F");
                 bridge.onlinePlayers--;
                 break;
             case "was":
-                logs.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
+                bridge.logs.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
                 mc.chat("L");
                 if (bridge.onlineMembers.includes(msgParts[1])) bridge.onlinePlayers--; 
                 break;
-        }
-    }
+        };
+    };
 
     if (msg.includes("guild" && "Tier" && "Quest") && !msg.includes(":")) {
-        channel.send("The Guild has just completed Tier " + msgParts[9] + " of this week's guild quest! GG!");
+        bridge.channel.send("The Guild has just completed Tier " + msgParts[9] + " of this week's guild quest! GG!");
         mc.chat("GG!");
-    }
+    };
 
     if (msg.includes("Guild" && "Level") && !msg.includes(":")) {
-        channel.send("The Guild has just reached level " + msgParts[msgParts.length - 1].replace('!', '') + " GG!");
+        bridge.channel.send("The Guild has just reached level " + msgParts[msgParts.length - 1].replace('!', '') + " GG!");
         mc.chat("GG!");
-    }
+    };
 });
 
 mc.on("error", (error) => {
