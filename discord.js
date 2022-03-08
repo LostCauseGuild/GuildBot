@@ -34,6 +34,13 @@ client.on("messageCreate", (message) => {
                         bridge.channel.send("Error: Only Staff can accept members.");
                     };
                     break;
+                case `${bot.prefix}invite`:
+                    if (message.member.roles.cache.get(`${bot.staffRoleID}`)) {
+                        mc.chat(`/guild invite ${msgParts[1]}`);
+                    } else {
+                        bridge.channel.send("Error: Only Staff can invite members.");
+                    };
+                    break;
             };
         } else mc.chat(message.member.displayName + ": " + message.content);
     // } else {
