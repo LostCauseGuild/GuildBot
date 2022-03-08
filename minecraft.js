@@ -23,7 +23,7 @@ mc.on("messagestr", (msg) => {
     if (msg.includes("●")) {
         let listMsg = msg.split("●");
         for (var k = 0; k < listMsg.length; k++) bridge.onlineMembers = bridge.onlineMembers.concat(listMsg[k].replace(/\[.{1,}\]/g, "").replace(/\s/g, "")).filter(Boolean);
-    }
+    };
 
     if (msg.startsWith("Guild >")) {
         if (msgParts[2].includes(mc.username) || msgParts[3].includes(mc.username)) return;
@@ -49,35 +49,45 @@ mc.on("messagestr", (msg) => {
                 bridge.channel.send({embeds: [embed]});
             }
         }
-    }
+    };
 
     if (msg.startsWith("Online Members")) bridge.onlinePlayers = msgParts[2];
 
     if (bridge.onlinePlayers !== bridge.currentPlayers) {
         client.user.setPresence({activities: [{name: `${bridge.onlinePlayers} guild members`, type: 'WATCHING'}], status: 'dnd' });
         bridge.currentPlayers = bridge.onlinePlayers
-        };
+    };
 
     if (msg.includes("the guild") && !msg.includes(":")) {
         if (msg.startsWith("[")) var i = 1; else i = 0;
 
         switch (msgParts[i + 1]) {
             case "joined":
+                bridge.channel.send(msgParts[i] + " joined the guild.");
                 bridge.logs.send(msgParts[i] + " joined the guild.");
                 mc.chat("Welcome " + msgParts[i] + "!");
                 bridge.onlinePlayers++;
                 break;
             case "left":
+                bridge.channel.send(msgParts[i] + " left the guild.");
                 bridge.logs.send(msgParts[i] + " left the guild.");
                 mc.chat("F");
                 bridge.onlinePlayers--;
                 break;
             case "was":
+                bridge.channel.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
                 bridge.logs.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
                 mc.chat("L");
                 if (bridge.onlineMembers.includes(msgParts[1])) bridge.onlinePlayers--; 
                 break;
         };
+    };
+    
+    if (msg.includes("requested to join")) {
+        let msgC = msg.replace('-----------------------------------------------------', '').replace('/\r?\n|\r/g', '').replace('\u000a', '');
+        let msgPartsC = msgC.split(' ');
+        if (msgC.startsWith("[")) var i = 1; else i = 0;
+        bridge.logs.send(`<@&${conf.discord.staffRoleID}> - ${msgPartsC[i]} has requested to join the guild. \nIf you wish to accept them, please type "${conf.discord.prefix}accept ${msgPartsC[i]}" in <#${conf.discord.channelID}>.`);
     };
 
     if (msg.includes("guild" && "Tier" && "Quest") && !msg.includes(":")) {

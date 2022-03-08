@@ -7,7 +7,8 @@ conf.discord = {
     guildID: "Discord Server ID",
     channelID: "Discord Channel ID",
     logChannel: "Discord Channel ID",
-    memberRoleID: "Role ID of the Guild Member Role",
+    staffRoleID: "ID of the Staff role",
+    memberRoleID: "ID of the Guild Member role",
 
     webhook: {
         enabled: false,

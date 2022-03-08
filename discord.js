@@ -22,12 +22,19 @@ client.on("messageCreate", (message) => {
 
         if (message.content.startsWith(bot.prefix)) {
             switch (msgParts[0]) {
-              case `${bot.prefix}online`:
-                bridge.onlineMembers = []
-                mc.chat("/g online")
-                setTimeout(() => bridge.channel.send("The currently online guild members are: " + bridge.onlineMembers), 2000);
-                break;
-            }
+                case `${bot.prefix}online`:
+                    bridge.onlineMembers = [];
+                    mc.chat("/g online");
+                    setTimeout(() => bridge.channel.send("The currently online guild members are: " + bridge.onlineMembers), 2000);
+                    break;
+                case `${bot.prefix}accept`:
+                    if (message.member.roles.cache.get(`${bot.staffRoleID}`)) {
+                        mc.chat(`/guild accept ${msgParts[1]}`);
+                    } else {
+                        bridge.channel.send("Error: Only Staff can accept members.");
+                    };
+                    break;
+            };
         } else mc.chat(message.member.displayName + ": " + message.content);
     // } else {
     //     if ((message.content.includes("member role") || message.content.includes("lost role")) && !message.member.roles.cache.get(bot.memberRoleID)) message.reply("If you're a member of the guild, send GuildB0t a message on Hypixel with your discord tag to recieve the member role!"); break;
