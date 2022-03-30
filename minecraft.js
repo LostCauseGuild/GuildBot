@@ -28,7 +28,7 @@ mc.on("messagestr", (msg) => {
     if (msg.startsWith("Guild >")) {
         if (msgParts[2].includes(mc.username) || msgParts[3].includes(mc.username)) return;
         if (msgParts.length == 4 && !msg.includes(":")) {
-            bridge.channel.send(msgParts[2] + " " + msgParts[3]);
+            bridge.channel.send(`${msgParts[2]} ${msgParts[3]}`);
             switch (msgParts[3]) {
                 case "joined.":
                     bridge.onlinePlayers++;
@@ -87,7 +87,10 @@ mc.on("messagestr", (msg) => {
         let msgC = msg.replace('-----------------------------------------------------', '').replace('/\r?\n|\r/g', '').replace('\u000a', '');
         let msgPartsC = msgC.split(' ');
         if (msgC.startsWith("[")) var i = 1; else i = 0;
-        bridge.logs.send(`<@&${conf.discord.staffRoleID}> - ${msgPartsC[i]} has requested to join the guild. \nIf you wish to accept them, please type "${conf.discord.prefix}accept ${msgPartsC[i]}" in <#${conf.discord.channelID}>.`);
+        bridge.logs.send(`<@&${conf.discord.staffRoleID}> - ${msgPartsC[i]} has requested to join the guild. \nIf you wish to accept them, please type \`${conf.discord.prefix}accept ${msgPartsC[i]}\` in <#${conf.discord.channelID}>.`);
+        setTimeout(() => {
+            bridge.logs.send(`5 Minutes have now passed. If you wish for this person to join the guild, please ${conf.discord.prefix}invite them in <#${conf.discord.channelID}>.`)
+        }, 300000);
     };
 
     if (msg.includes("guild" && "Tier" && "Quest") && !msg.includes(":")) {

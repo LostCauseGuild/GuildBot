@@ -22,10 +22,10 @@ client.on("messageCreate", (message) => {
 
         if (message.content.startsWith(bot.prefix)) {
             switch (msgParts[0]) {
-                case `${bot.prefix}online`:
+                case `${bot.prefix}online` || `${bot.prefix}list`:
                     bridge.onlineMembers = [];
                     mc.chat("/g online");
-                    setTimeout(() => bridge.channel.send("The currently online guild members are: " + bridge.onlineMembers), 2000);
+                    setTimeout(() => bridge.channel.send("The currently online guild members are: `" + bridge.onlineMembers + "`"), 2000);
                     break;
                 case `${bot.prefix}accept`:
                     if (message.member.roles.cache.get(`${bot.staffRoleID}`)) {
