@@ -12,6 +12,7 @@ mc.on("spawn", async () => {
         console.log("Switching to guild chat. (If not already.)");
         mc.chat("/chat g");
     }, 1000);
+    await setTimeout(() => mc.chat("§"), 1500);
     await setTimeout(() => mc.chat("Logged in"), 2000);
     await setTimeout(() => mc.chat("/g online"), 3000);
 });
@@ -88,9 +89,7 @@ mc.on("messagestr", (msg) => {
         let msgPartsC = msgC.split(' ');
         if (msgC.startsWith("[")) var i = 1; else i = 0;
         bridge.logs.send(`<@&${conf.discord.staffRoleID}> - ${msgPartsC[i]} has requested to join the guild. \nIf you wish to accept them, please type \`${conf.discord.prefix}accept ${msgPartsC[i]}\` in <#${conf.discord.channelID}>.`);
-        setTimeout(() => {
-            bridge.logs.send(`5 Minutes have now passed. If you wish for this person to join the guild, please ${conf.discord.prefix}invite them in <#${conf.discord.channelID}>.`)
-        }, 300000);
+        bridge.logs.send(`Once 5 minutes have passed, the join request expires. After that, if you wish for this person to join the guild, please run \`${conf.discord.prefix}invite ${msgPartsC[i]}\`  in <#${conf.discord.channelID}>.`);
     };
 
     if (msg.includes("guild" && "Tier" && "Quest") && !msg.includes(":")) {
