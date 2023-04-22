@@ -13,6 +13,7 @@ bridge.onlinePlayers = 0;
 
 bridge.channel = null;
 bridge.guild = null;
+bridge.staff = null;
 bridge.logs = null;
 
 bridge.mcBot = mineflayer.createBot(conf.minecraft);

@@ -2,6 +2,7 @@ import {WebhookClient, MessageEmbed} from 'discord.js';
 import conf from './config/config.js';
 import bridge from './index.js';
 
+const staffWebhook = new WebhookClient({id: conf.discord.staffWebhook.id, token: conf.discord.staffWebhook.token});
 const webhook = new WebhookClient({id: conf.discord.webhook.id, token: conf.discord.webhook.token});
 const client = bridge.dcBot;
 const mc = bridge.mcBot;
@@ -52,6 +53,20 @@ mc.on("messagestr", (msg) => {
         }
     };
 
+    if (msg.startsWith("Officer >")) {
+        if (msgParts[2].includes(mc.username) || msgParts[3].includes(mc.username)) return;
+        let i = msg.indexOf(":");
+        let sentMsg = [msg.slice(0, i), msg.slice(i + 1)];
+        let sender;
+        if (msgParts[2].includes("[")) sender = msgParts[3].replace(":", ""); else sender = msgParts[2].replace(":", "");
+
+        if (conf.discord.webhook.enabled == true) staffWebhook.send({content: `${sentMsg[1]}`, username: `${sender}`, avatarURL: `https://www.mc-heads.net/avatar/${sender}`, allowedMentions: {parse: ["users"]}});
+        else {
+            let embed = new MessageEmbed({color: 'NAVY', author: {name: `${sender}: ${sentMsg[1]}`, iconURL: `https://www.mc-heads.net/avatar/${sender}`}});
+            bridge.staff.send({embeds: [embed]});
+        }
+    };
+
     if (msg.startsWith("Online Members")) bridge.onlinePlayers = msgParts[2];
 
     if (bridge.onlinePlayers !== bridge.currentPlayers) {
@@ -64,22 +79,22 @@ mc.on("messagestr", (msg) => {
 
         switch (msgParts[i + 1]) {
             case "joined":
-                bridge.channel.send(msgParts[i] + " joined the guild.");
-                bridge.logs.send(msgParts[i] + " joined the guild.");
+                bridge.channel.send(`\`${msgParts[i]}\` joined the guild.`);
+                bridge.logs.send(`\`${msgParts[i]}\` joined the guild.`);
                 mc.chat("Welcome " + msgParts[i] + "!");
                 bridge.onlinePlayers++;
                 break;
             case "left":
-                bridge.channel.send(msgParts[i] + " left the guild.");
-                bridge.logs.send(msgParts[i] + " left the guild.");
+                bridge.channel.send(`\`${msgParts[i]}\` left the guild.`);
+                bridge.logs.send(`\`${msgParts[i]}\` left the guild.`);
                 mc.chat("F");
                 bridge.onlinePlayers--;
                 break;
             case "was":
-                bridge.channel.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
-                bridge.logs.send(msgParts[i] + " was kicked from the guild by " + msgParts[msgParts.length - 1].replace('!', '.'));
+                bridge.channel.send(`\`${msgParts[i]}\` was kicked from the guild by \`${msgParts[msgParts.length - 1].replace('!', '.')}`);
+                bridge.logs.send(`\`${msgParts[i]}\` was kicked from the guild by \`${msgParts[msgParts.length - 1].replace('!', '.')}`);
                 mc.chat("L");
-                if (bridge.onlineMembers.includes(msgParts[1])) bridge.onlinePlayers--; 
+                if (bridge.onlineMembers.includes(msgParts[i])) bridge.onlinePlayers--; 
                 break;
         };
     };
@@ -88,8 +103,13 @@ mc.on("messagestr", (msg) => {
         let msgC = msg.replace('-----------------------------------------------------', '').replace('/\r?\n|\r/g', '').replace('\u000a', '');
         let msgPartsC = msgC.split(' ');
         if (msgC.startsWith("[")) var i = 1; else i = 0;
-        bridge.logs.send(`<@&${conf.discord.staffRoleID}> - ${msgPartsC[i]} has requested to join the guild. \nIf you wish to accept them, please type \`${conf.discord.prefix}accept ${msgPartsC[i]}\` in <#${conf.discord.channelID}>.`);
-        bridge.logs.send(`Once 5 minutes have passed, the join request expires. After that, if you wish for this person to join the guild, please run \`${conf.discord.prefix}invite ${msgPartsC[i]}\`  in <#${conf.discord.channelID}>.`);
+        if (conf.settings.autoJoin == false) {  
+            bridge.logs.send(`<@&${conf.discord.staffRoleID}> \n\`${msgPartsC[i]}\` has requested to join the guild. \nIf you wish to accept them, please type \`${conf.discord.prefix}accept ${msgPartsC[i]}\` in <#${conf.discord.staffChannel}>.`);
+            bridge.logs.send(`Once 5 minutes have passed, the join request expires. After that, if you wish for this person to join the guild, please run \`${conf.discord.prefix}invite ${msgPartsC[i]}\` in <#${conf.discord.staffChannel}> to send them another invite.`);
+        } else {
+            bridge.logs.send(`<@&${conf.discord.staffRoleID}> Autojoin is Enabled. \n\`${msgPartsC[i]}\` requested to join the guild and has been accepted.`);
+            mc.chat(`/guild accept ${msgPartsC[i]}`)
+        }    
     };
 
     if (msg.includes("guild" && "Tier" && "Quest") && !msg.includes(":")) {
