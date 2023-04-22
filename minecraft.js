@@ -30,7 +30,7 @@ mc.on("messagestr", (msg) => {
     if (msg.startsWith("Guild >")) {
         if (msgParts[2].includes(mc.username) || msgParts[3].includes(mc.username)) return;
         if (msgParts.length == 4 && !msg.includes(":")) {
-            bridge.channel.send(`${msgParts[2]} ${msgParts[3]}`);
+            bridge.channel.send(`\`${msgParts[2]}\` ${msgParts[3]}`);
             switch (msgParts[3]) {
                 case "joined.":
                     bridge.onlinePlayers++;
