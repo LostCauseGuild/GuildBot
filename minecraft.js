@@ -81,7 +81,7 @@ mc.on("messagestr", (msg) => {
             case "joined":
                 bridge.channel.send(`\`${msgParts[i]}\` joined the guild.`);
                 bridge.logs.send(`\`${msgParts[i]}\` joined the guild.`);
-                mc.chat("Welcome " + msgParts[i] + "!");
+                mc.chat(`Welcome ${msgParts[i]}! Make sure to join the /g discord!`);
                 bridge.onlinePlayers++;
                 break;
             case "left":
